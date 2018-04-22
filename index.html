@@ -44,8 +44,10 @@
         <div class="row mb-4">
             <div class="col ">
 
-                <h2><span id="formMode">Add</span> Train</h2>
+                <h2>
+                    <span id="formMode">Add</span> Train</h2>
                 <form id="newTrainForm" class="needs-validation" novalidate>
+                    <input type="hidden" id="firebaseID" value="">
                     <div class="form-group">
                         <label for="trainName" class="col-form-label ">Train Name</label>
                         <input type="text" class="form-control " id="trainName" placeholder="Train" required>
@@ -63,10 +65,9 @@
                     <div class="form-group">
                         <label for="firstTrainTime" class="col-form-label ">First Train Time (HH:mm - 24 hour time)</label>
                         <!-- https://stackoverflow.com/questions/1494671/regular-expression-for-matching-time-in-military-24-hour-format -->
-                        <input type="text" pattern="(([01]\d|2[0-3]):[0-5]\d)" class="form-control" id="firstTrainTime" placeholder="HH:mm"
-                            required>
+                        <input type="text" pattern="(([01]\d|2[0-3]):[0-5]\d)" class="form-control" id="firstTrainTime" placeholder="HH:mm" required>
                         <div class="invalid-feedback">
-                            Please provide a time in the format HH:mm.  For 24:00, use 00:00.
+                            Please provide a time in the format HH:mm. For 24:00, use 00:00.
                         </div>
                     </div>
                     <div class="form-group">
@@ -79,6 +80,8 @@
                     </div>
                     <div class="form-group">
                         <button type="submit " class="btn btn-primary ">Submit</button>
+                        <button id="cancelButton" class="btn btn-secondary ">Cancel</button>
+                        <button id="deleteButton" class="btn btn-danger ">Delete</button>
                     </div>
                 </form>
 
