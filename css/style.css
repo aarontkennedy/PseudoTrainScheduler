@@ -1,0 +1,31 @@
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+section {
+    flex: 1 0 auto;
+}
+footer {
+    flex-shrink: 0;
+    text-align:center;
+}
+
+.col {
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
+#currentTime {
+    float:right;
+}
+
+#tableTitle {
+    float:left;
+}

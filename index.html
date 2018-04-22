@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Psuedo Train Scheduler</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <header class="jumbotron container mt-3">
+        <h1 class="display-4">Psuedo Train Scheduler</h1>
+        <p class="lead">A Firebase-powered Train Scheduler!</p>
+    </header>
+
+    <section class="container">
+        <div class="row mb-4">
+            <div class="col">
+                <div class="table-responsive">
+                    <h2 id="tableTitle">Current Train Schedule</h2>
+                    <h4 id="currentTime"></h4>
+                    <table class="table table-hover table-sm ">
+                        <thead>
+                            <tr>
+                                <th scope="col ">Train Name</th>
+                                <th scope="col ">Destination</th>
+                                <th scope="col ">Frequency</th>
+                                <th scope="col ">Next Arrival</th>
+                                <th scope="col ">Minutes Away</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dynamicTrainContent">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col ">
+
+                <h2><span id="formMode">Add</span> Train</h2>
+                <form id="newTrainForm" class="needs-validation" novalidate>
+                    <div class="form-group">
+                        <label for="trainName" class="col-form-label ">Train Name</label>
+                        <input type="text" class="form-control " id="trainName" placeholder="Train" required>
+                        <div class="invalid-feedback">
+                            Please provide a name.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="destination" class="col-form-label ">Destination</label>
+                        <input type="text" class="form-control" id="destination" placeholder="" required>
+                        <div class="invalid-feedback">
+                            Please provide a destination.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstTrainTime" class="col-form-label ">First Train Time (HH:mm - 24 hour time)</label>
+                        <!-- https://stackoverflow.com/questions/1494671/regular-expression-for-matching-time-in-military-24-hour-format -->
+                        <input type="text" pattern="(([01]\d|2[0-3]):[0-5]\d)" class="form-control" id="firstTrainTime" placeholder="HH:mm"
+                            required>
+                        <div class="invalid-feedback">
+                            Please provide a time in the format HH:mm.  For 24:00, use 00:00.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="frequency" class="col-form-label ">Frequency (min)</label>
+                        <!-- https://www.w3schools.com/tags/att_input_pattern.asp -->
+                        <input type="text" pattern="[0-9]*" class="form-control" id="frequency" placeholder="10" required>
+                        <div class="invalid-feedback">
+                            Please provide a frequency in minutes. Whole numbers only.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit " class="btn btn-primary ">Submit</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <a href="https://github.com/aarontkennedy/PseudoTrainScheduler">Made by Aaron Kennedy</a>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo "
+        crossorigin="anonymous "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js " integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ "
+        crossorigin="anonymous "></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js " integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm "
+        crossorigin="anonymous "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js "></script>
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script src="javascript/app.js "></script>
+
+</body>
+
+</html>
