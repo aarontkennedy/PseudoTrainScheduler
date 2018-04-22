@@ -13,6 +13,12 @@ $(document).ready(function () {
     // Create a variable to reference the database.
     let database = firebase.database().ref("trains");
 
+    const firebaseIDInput = $("#firebaseID");
+    const trainNameInput = $("#trainName");
+    const trainDestInput = $("#destination");
+    const trainStartTimeInput = $("#firstTrainTime");
+    const trainFrequencyInput = $("#frequency");
+
 
     // create an even handler that listens for form submittal
     // and validates the input from the user
@@ -25,14 +31,31 @@ $(document).ready(function () {
             form[0].classList.add('was-validated');
         }
         else {
-            // Code for handling the push to firebase
-            database.push({
-                trainName: $("#trainName").val().trim(),
-                trainDestination: $("#destination").val().trim(),
-                trainStartTime: $("#firstTrainTime").val().trim(),
-                trainFrequency: $("#frequency").val().trim(),
-                dateAdded: firebase.database.ServerValue.TIMESTAMP
-            });
+
+            // are we updating or are we adding a new train
+            let trainID = firebaseIDInput.val();
+            if (trainID) {
+                database.child(trainID).set({
+                    trainName: trainNameInput.val().trim(),
+                    trainDestination: trainDestInput.val().trim(),
+                    trainStartTime: trainStartTimeInput.val().trim(),
+                    trainFrequency: trainFrequencyInput.val().trim()
+                });
+                // we have to update the table ourselves since child added
+                // won't trigger for an update
+                updateTable();
+                $("#deleteButton").hide();
+                $("#formMode").text("Add");
+            }
+            else {
+                // Code for handling the push to firebase
+                database.push({
+                    trainName: trainNameInput.val().trim(),
+                    trainDestination: trainDestInput.val().trim(),
+                    trainStartTime: trainStartTimeInput.val().trim(),
+                    trainFrequency: trainFrequencyInput.val().trim()
+                });
+            }
 
             // clear the inputs
             setFormValues(null, null, null, null, null);
@@ -123,8 +146,10 @@ $(document).ready(function () {
 
     // i need to pull the data from the server every minute for update
     // in case i implement the updating of trains feature
-    setInterval(function () {
-        database().once('value').then(function (snapshot) {
+    setInterval(updateTable, 60000);
+
+    function updateTable() {
+        database.once('value').then(function (snapshot) {
             $("#dynamicTrainContent").empty();
             let sv = snapshot.val();
             //console.log(sv);
@@ -133,8 +158,7 @@ $(document).ready(function () {
                 createTrainInfoRow(key, sv[key]);
             }
         });
-    }, 60000);
-
+    }
 
     // listen for trains being clicked so they can be edited
     // entering update mode!
@@ -147,8 +171,8 @@ $(document).ready(function () {
         setFormValues($(this).children("td").eq(5).text(),
             $(this).children("td").eq(0).text(),
             $(this).children("td").eq(1).text(),
-            $(this).children("td").eq(2).text(),
-            $(this).children("td").eq(6).text());
+            $(this).children("td").eq(6).text(),
+            $(this).children("td").eq(2).text());
     });
 
 
@@ -172,16 +196,8 @@ $(document).ready(function () {
         event.stopPropagation();
         database.child(firebaseIDInput.val()).remove();
 
-        let rows = $("tbody tr");
-        for (let i = 0; i < rows.length; i++) {
-            let row = $(rows[i]);
-            alert(row.children().eq(5).text());
-            if (row.children().eq(5).text() == firebaseIDInput.val()) {
-                row.remove();
-                break;
-            }
-        }
-        
+        updateTable();
+
         // clear the inputs
         setFormValues(null, null, null, null, null);
 
@@ -189,12 +205,6 @@ $(document).ready(function () {
         $("#deleteButton").hide();
     });
 
-
-    const firebaseIDInput = $("#firebaseID");
-    const trainNameInput = $("#trainName");
-    const trainDestInput = $("#destination");
-    const trainStartTimeInput = $("#firstTrainTime");
-    const trainFrequencyInput = $("#frequency");
 
     function setFormValues(id, name, destination, startTime, frequency) {
         firebaseIDInput.val(id);
