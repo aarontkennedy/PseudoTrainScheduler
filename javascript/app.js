@@ -11,7 +11,7 @@ $(document).ready(function () {
     firebase.initializeApp(config);
 
     // Create a variable to reference the database.
-    let database = firebase.database().ref("trains");
+    let database = firebase.database().ref("psuedoTrainScheduler/trains");
 
     const firebaseIDInput = $("#firebaseID");
     const trainNameInput = $("#trainName");
